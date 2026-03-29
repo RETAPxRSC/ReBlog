@@ -1,13 +1,13 @@
 /** 文本 */
-export const siteName = 'Nólëbase'
-export const siteShortName = 'Nólëbase'
+export const siteName = 'ReBlog'
+export const siteShortName = 'Re'
 export const siteDescription = '记录回忆，知识和畅想的地方'
 
 /** 文档所在目录 */
 export const include = ['笔记', '生活']
 
 /** Repo */
-export const githubRepoLink = 'https://github.com/nolebase/nolebase'
+export const githubRepoLink = 'https://github.com/RETAPxRSC'
 /** Discord */
 export const discordLink = 'https://discord.gg/XuNFDcDZGj'
 

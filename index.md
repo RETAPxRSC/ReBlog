@@ -15,14 +15,14 @@ hero:
   actions:
     - theme: brand
       text: 开始阅读
-      link: /笔记/index
+      link: /笔记/test
     - theme: alt
       text: 认识Re
       link: https://github.com/RETAPxRSC
 
 features:
-  - title: 多样的主题和内容
-    details: 本知识库和所生成的页面均由创作者们维护，涉及到生活中各方面知识和内容，也不乏我们的回忆和畅想。
+  - title: RE的代码和学习笔记
+    details: 本博客和所生成的页面均由创作者们维护，记录了RE在大学期间的学习印记，也不乏RE的回忆和畅想。
     icon: 🌈
   - title: 皆为 Markdown
     details: 使用 Markdown 和 Markdown 拓展语法编写和记录笔记，每一个页面都是 Markdown 文件。

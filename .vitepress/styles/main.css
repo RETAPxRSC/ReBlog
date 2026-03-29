@@ -94,6 +94,7 @@ html, body {
 .VPHomeHero > .container > .main > h1 {
   font-size: 5rem;
   font-family: 'KUNSTLER';
+  font-weight: bold;
 }
 
 /* 首页子标题样式 */

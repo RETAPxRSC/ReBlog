@@ -6,7 +6,7 @@ title: Retap's Blog ~
 titleTemplate: Recursive Exploration
 
 hero:
-  name: ~ReLab_Blog^
+  name: Retap's Blog
   text: RE-Start，一本正在生长的技术手记
   tagline: RE here · 从零开始的代码日历，和那些值得被记录的学习轨迹
   image:

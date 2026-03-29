@@ -1,3 +1,8 @@
+---
+tags:
+  - C++
+comment: false
+---
 ### **当使用** `setprecision()` **时，后续所有浮点输出都会被影响**
 
 `fixed` 和 `setprecision()` 会修改 `cout` 的**全局状态**，直到你手动恢复为止。

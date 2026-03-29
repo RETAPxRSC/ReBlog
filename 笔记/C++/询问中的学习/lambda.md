@@ -1,3 +1,8 @@
+---
+tags:
+  - C++
+comment: false
+---
 # Lambda 的结构拆解
 
 一个 lambda 的完整结构是：

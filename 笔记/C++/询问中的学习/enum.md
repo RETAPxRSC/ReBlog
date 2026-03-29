@@ -1,3 +1,8 @@
+---
+tags:
+  - C++
+comment: false
+---
 # 1. enum CPU_Rank（枚举类型）
 ---
 ### 1.1 枚举的作用

@@ -1,3 +1,8 @@
+---
+tags:
+  - C++
+comment: false
+---
 ## Emplace_back 和 Push_back 的区别
 
 1. `push_back`**：先构造对象，再拷贝/移动进容器。

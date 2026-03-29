@@ -15,7 +15,7 @@ hero:
   actions:
     - theme: brand
       text: 开始阅读
-      link: /笔记/C++/
+      link: /笔记
     - theme: alt
       text: 认识Re
       link: https://github.com/RETAPxRSC

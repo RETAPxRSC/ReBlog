@@ -41,6 +41,8 @@ import HomePage from './components/HomePage.vue'
 import Share from './components/Share.vue'
 import TocList from './components/TocList.vue'
 
+import ParticleBook from './components/ParticleBook.vue'
+
 import '@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css'
 import '@nolebase/vitepress-plugin-highlight-targeted-heading/client/style.css'
 import '@nolebase/vitepress-plugin-inline-link-preview/client/style.css'
@@ -64,6 +66,7 @@ const ExtendedTheme: Theme = {
       'doc-top': () => [
         h(NolebaseHighlightTargetedHeading),
       ],
+      'home-hero-image': () => h(ParticleBook),
       'doc-footer-before': () => [
         h(DocFooter),
       ],

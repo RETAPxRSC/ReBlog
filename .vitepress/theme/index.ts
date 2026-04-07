@@ -40,6 +40,7 @@ import DocFooter from './components/DocFooter.vue'
 import HomePage from './components/HomePage.vue'
 import Share from './components/Share.vue'
 import TocList from './components/TocList.vue'
+import HeroTyping from './components/HeroTyping.vue'
 
 import '@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css'
 import '@nolebase/vitepress-plugin-highlight-targeted-heading/client/style.css'
@@ -60,6 +61,7 @@ const ExtendedTheme: Theme = {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
+      'home-hero-info-before': () => h(HeroTyping),
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       'doc-top': () => [
         h(NolebaseHighlightTargetedHeading),

@@ -48,15 +48,11 @@ class Particle {
   }
 
   update(mouseX: number, mouseY: number, canvasWidth: number, canvasHeight: number) {
-    // Idle orbital movement
-    this.orbitAngle += this.orbitSpeed * 0.1;
+    // We remove the orbital rotation to keep the book shape static
     
-    const targetX = this.orbitCenter.x + this.orbitRadius * Math.cos(this.orbitAngle);
-    const targetY = this.orbitCenter.y + this.orbitRadius * Math.sin(this.orbitAngle);
-    
-    // Base position interpolation for smooth orbit
-    this.baseX += (targetX - this.baseX) * 0.05;
-    this.baseY += (targetY - this.baseY) * 0.05;
+    // Base position is steady
+    const targetX = this.baseX;
+    const targetY = this.baseY;
 
     // View projection offsets
     const screenX = this.baseX + canvasWidth / 2;
@@ -67,15 +63,25 @@ class Particle {
     const dy = screenY - mouseY;
     const distance = Math.sqrt(dx * dx + dy * dy);
     
-    const repellRadius = 150;
+    // Reduce the repulsion radius and force to make it subtle
+    const repellRadius = 80;
     if (distance < repellRadius && isHovering) {
       const force = (repellRadius - distance) / repellRadius;
-      this.x += dx * force * 0.1;
-      this.y += dy * force * 0.1;
+      
+      const jitterX = (Math.random() - 0.5) * 1.5;
+      const jitterY = (Math.random() - 0.5) * 1.5;
+
+      // Much smaller repulsion factor
+      this.x += dx * force * 0.05 + jitterX;
+      this.y += dy * force * 0.05 + jitterY;
     } else {
-      // Return to base
-      this.x += (this.baseX - this.x) * 0.1;
-      this.y += (this.baseY - this.y) * 0.1;
+      // Small idle breathing
+      const idleJitterX = (Math.random() - 0.5) * 0.3;
+      const idleJitterY = (Math.random() - 0.5) * 0.3;
+      
+      // Return to base more quickly to maintain shape
+      this.x += (this.baseX - this.x) * 0.1 + idleJitterX;
+      this.y += (this.baseY - this.y) * 0.1 + idleJitterY;
     }
   }
 

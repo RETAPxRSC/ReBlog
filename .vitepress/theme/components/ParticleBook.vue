@@ -68,20 +68,13 @@ class Particle {
     if (distance < repellRadius && isHovering) {
       const force = (repellRadius - distance) / repellRadius;
       
-      const jitterX = (Math.random() - 0.5) * 1.5;
-      const jitterY = (Math.random() - 0.5) * 1.5;
-
-      // Much smaller repulsion factor
-      this.x += dx * force * 0.05 + jitterX;
-      this.y += dy * force * 0.05 + jitterY;
+      // Completely remove jitter for static styling
+      this.x += dx * force * 0.05;
+      this.y += dy * force * 0.05;
     } else {
-      // Small idle breathing
-      const idleJitterX = (Math.random() - 0.5) * 0.3;
-      const idleJitterY = (Math.random() - 0.5) * 0.3;
-      
-      // Return to base more quickly to maintain shape
-      this.x += (this.baseX - this.x) * 0.1 + idleJitterX;
-      this.y += (this.baseY - this.y) * 0.1 + idleJitterY;
+      // Return to base smoothly, no breathing/jitter
+      this.x += (this.baseX - this.x) * 0.1;
+      this.y += (this.baseY - this.y) * 0.1;
     }
   }
 
@@ -112,26 +105,67 @@ onMounted(() => {
     particles = [];
     const colors = ['#bd34fe', '#41d1ff', '#ffffff'];
     
-    // Create an open book shape
-    // Points on the two curved pages and spine
-    for (let u = -1; u <= 1; u += 0.05) { // Left to right
-      for (let v = -1; v <= 1; v += 0.05) { // Top to bottom
-        // Mathematical model for an open book shape
-        let x = u * 150;
-        let y = v * 120;
-        let z = 50 * Math.exp(-Math.abs(u) * 5) - 30 * Math.cos(u * Math.PI); 
+    // Define lines for a closed book icon based on the provided image
+    const lines = [
+      [-40, -50, -40, 50],  // Left thick edge
+      [-40, 50, 40, 50],    // Bottom thick edge
+      [40, 50, 40, -50],    // Right thick edge
+      [40, -50, -40, -50],  // Top thick edge
+      [-15, -50, -15, 50],  // Spine separator vertical line
+      [-15, 30, 40, 30],    // Pages bottom block horizontal line
+      [0, -20, 25, -20],    // Text line 1
+      [0, 5, 15, 5]         // Text line 2
+    ];
 
-        // Add some random scatter to make it look like a magical particle cluster
-        x += (Math.random() - 0.5) * 5;
-        y += (Math.random() - 0.5) * 5;
-        z += (Math.random() - 0.5) * 5;
+    const scale = 1.8;
+    const density = 2.0;
+
+    lines.forEach(line => {
+      const [x1, y1, x2, y2] = line.map(v => v * scale);
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const length = Math.sqrt(dx*dx + dy*dy);
+      const count = Math.floor(length / density);
+
+      for (let i = 0; i <= count; i++) {
+        const t = count === 0 ? 0 : i / count;
+        // Make points perfectly follow the strict outline, removing randomness
+        const x = x1 + dx * t;
+        const y = y1 + dy * t;
+        const z = 0; // 2D flat layer
 
         const color = colors[Math.floor(Math.random() * colors.length)];
-        // Modify initialization
         const p = new Particle(x, y, z, color, 'book');
         particles.push(p);
       }
-    }
+    });
+
+    // Add extra particles to make the outer border look thicker just like the icon
+    const thickLines = [
+      [-40, -50, -40, 50],
+      [-40, 50, 40, 50],
+      [40, 50, 40, -50],
+      [40, -50, -40, -50]
+    ];
+    
+    thickLines.forEach(line => {
+      const [x1, y1, x2, y2] = line.map(v => v * scale);
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const length = Math.sqrt(dx*dx + dy*dy);
+      const count = Math.floor(length / density);
+
+      for (let i = 0; i <= count; i++) {
+        const t = count === 0 ? 0 : i / count;
+        // Offset slightly for thickness
+        const x = x1 + dx * t + (Math.random() - 0.5) * 4;
+        const y = y1 + dy * t + (Math.random() - 0.5) * 4;
+        const z = 0;
+
+        const p = new Particle(x, y, z, '#ffffff', 'book');
+        particles.push(p);
+      }
+    });
   };
 
   const animate = () => {

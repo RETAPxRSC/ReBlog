@@ -36,7 +36,8 @@ class Particle {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.radius = Math.random() * 1.5 + 0.5;
+    // slightly larger particles to support the dense styling
+    this.radius = Math.random() * 1.0 + 1.2;
     this.color = color;
     
     // Orbital mechanics (Kepler-inspired)
@@ -103,69 +104,82 @@ onMounted(() => {
 
   const initParticles = () => {
     particles = [];
-    const colors = ['#bd34fe', '#41d1ff', '#ffffff'];
     
-    // Define lines for a closed book icon based on the provided image
-    const lines = [
-      [-40, -50, -40, 50],  // Left thick edge
-      [-40, 50, 40, 50],    // Bottom thick edge
-      [40, 50, 40, -50],    // Right thick edge
-      [40, -50, -40, -50],  // Top thick edge
-      [-15, -50, -15, 50],  // Spine separator vertical line
-      [-15, 30, 40, 30],    // Pages bottom block horizontal line
-      [0, -20, 25, -20],    // Text line 1
-      [0, 5, 15, 5]         // Text line 2
-    ];
+    // Create an offscreen canvas to paint the icon accurately
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = 400;
+    tempCanvas.height = 400;
+    const tCtx = tempCanvas.getContext('2d');
+    if (!tCtx) return;
 
-    const scale = 1.8;
-    const density = 2.0;
+    tCtx.translate(200, 200);
+    tCtx.scale(1.5, 1.5);
+    tCtx.lineWidth = 10;          // Thicker lines
+    tCtx.lineJoin = 'round';      // Rounded corners
+    tCtx.lineCap = 'round';       // Rounded caps
+    tCtx.strokeStyle = '#fff';
 
-    lines.forEach(line => {
-      const [x1, y1, x2, y2] = line.map(v => v * scale);
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      const length = Math.sqrt(dx*dx + dy*dy);
-      const count = Math.floor(length / density);
+    // Helper for rounded rectangle
+    const drawRoundRect = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) => {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    };
 
-      for (let i = 0; i <= count; i++) {
-        const t = count === 0 ? 0 : i / count;
-        // Make points perfectly follow the strict outline, removing randomness
-        const x = x1 + dx * t;
-        const y = y1 + dy * t;
-        const z = 0; // 2D flat layer
+    // Draw Outer border
+    drawRoundRect(tCtx, -45, -55, 90, 110, 12);
+    tCtx.stroke();
 
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const p = new Particle(x, y, z, color, 'book');
-        particles.push(p);
-      }
-    });
+    // Spine
+    tCtx.beginPath();
+    tCtx.moveTo(-15, -55);
+    tCtx.lineTo(-15, 55);
+    tCtx.stroke();
 
-    // Add extra particles to make the outer border look thicker just like the icon
-    const thickLines = [
-      [-40, -50, -40, 50],
-      [-40, 50, 40, 50],
-      [40, 50, 40, -50],
-      [40, -50, -40, -50]
-    ];
+    // Bottom block horizontal
+    tCtx.beginPath();
+    tCtx.moveTo(-15, 30);
+    tCtx.lineTo(45, 30);
+    tCtx.stroke();
+
+    // Text lines
+    tCtx.beginPath();
+    tCtx.moveTo(2, -20);
+    tCtx.lineTo(25, -20);
+    tCtx.moveTo(2, 5);
+    tCtx.lineTo(18, 5);
+    tCtx.stroke();
+
+    const imgData = tCtx.getImageData(0, 0, 400, 400).data;
     
-    thickLines.forEach(line => {
-      const [x1, y1, x2, y2] = line.map(v => v * scale);
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      const length = Math.sqrt(dx*dx + dy*dy);
-      const count = Math.floor(length / density);
+    // Sample the drawn pixels to create particles
+    for (let y = 0; y < 400; y += 3) {
+      for (let x = 0; x < 400; x += 3) {
+        const i = (y * 400 + x) * 4 + 3; // Alpha channel
+        if (imgData[i] > 128) {
+          const px = x - 200;
+          const py = y - 200;
+          
+          // Calculate gradient color based on position X
+          const ratio = Math.max(0, Math.min(1, (px + 80) / 160));
+          // Start: #bd34fe (189, 52, 254), End: #41d1ff (65, 209, 255)
+          const r = Math.round(189 + (65 - 189) * ratio);
+          const g = Math.round(52 + (209 - 52) * ratio);
+          const b = Math.round(254 + (255 - 254) * ratio);
+          const color = `rgb(${r}, ${g}, ${b})`;
 
-      for (let i = 0; i <= count; i++) {
-        const t = count === 0 ? 0 : i / count;
-        // Offset slightly for thickness
-        const x = x1 + dx * t + (Math.random() - 0.5) * 4;
-        const y = y1 + dy * t + (Math.random() - 0.5) * 4;
-        const z = 0;
-
-        const p = new Particle(x, y, z, '#ffffff', 'book');
-        particles.push(p);
+          particles.push(new Particle(px, py, 0, color, 'book'));
+        }
       }
-    });
+    }
   };
 
   const animate = () => {

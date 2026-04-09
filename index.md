@@ -22,7 +22,7 @@ hero:
 
 features:
   - title: RE的代码和学习笔记
-    details: 本博客和所生成的页面均由创作者们维护，记录了RE在大学期间的学习印记，也不乏RE的回忆和畅想。
+    details: 本博客和所生成的页面均由创作者们维护，记录了Re在大学期间的学习印记，也不乏Re的回忆和畅想。
     icon: 🌈
   - title: 皆为 Markdown
     details: 使用 Markdown 和 Markdown 拓展语法编写和记录笔记，每一个页面都是 Markdown 文件。

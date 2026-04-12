@@ -4,6 +4,7 @@ tags:
   - Android
 comment: true
 ---
+
 ### 写在前面
 
 这篇博客是Re闲来无事鼓捣安卓架构下的Termux以及Proot-distro过程中的学习与分享，当然也包含踩过的坑，希望能帮到跟我一样闲着折腾安卓的大家喵

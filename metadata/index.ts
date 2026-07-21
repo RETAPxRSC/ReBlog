@@ -1,13 +1,13 @@
 /** 文本 */
 export const siteName = 'ReBlog'
 export const siteShortName = 'Re'
-export const siteDescription = '记录回忆，知识和畅想的地方'
+export const siteDescription = '记录回忆，知识和畅想'
 
 /** 文档所在目录 */
-export const include = ['笔记', '生活']
+export const include = ['笔记']
 
 /** Repo */
-export const githubRepoLink = 'https://github.com/RETAPxRSC'
+export const githubRepoLink = 'https://github.com/R1TAP'
 /** Discord */
 export const discordLink = 'https://discord.gg/XuNFDcDZGj'
 

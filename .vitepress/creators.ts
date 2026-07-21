@@ -48,11 +48,11 @@ export const creators: Creator[] = [
   {
     name: 'RETAP',
     avatar: '',
-    username: 'RETAPxRSC',
-    title: '小小的博客构建者',
-    desc: '代码初学者，从C++开始，探索自己的代码之路',
+    username: 'R1TAP',
+    title: '博客构建者？',
+    desc: '时光总能消磨忧郁，晴天也会如期而至。',
     links: [
-      { type: 'github', icon: 'github', link: 'https://github.com/RETAPxRSC' },
+      { type: 'github', icon: 'github', link: 'https://github.com/R1TAP' },
       { type: 'twitter', icon: 'twitter', link: 'https://x.com/RETAP_SMS' },
     ],
     nameAliases: ['RE', 'RETAP'],

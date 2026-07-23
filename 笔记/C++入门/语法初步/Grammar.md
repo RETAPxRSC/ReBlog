@@ -92,7 +92,7 @@ comment: false
 4. **scanf("%lf", &a);**   // 读取一个双精度浮点数  
 5. **scanf("%c", &a);**    // 读取一个字符 [此时会读空格字符]  
    - **scanf(" %c", &a);** // 读取一个字符 [此时会读非空格字符]  
-6. **scanf("%s", s);**     // 读取一个字符串 [注意不能有空格]  
+6. **scanf("%s", s);**     // 读取一个字符串（char） [注意不能有空格]  
 7. **scanf("%u", &a);**    // 读取一个无符号整数  
 8. **scanf("%x", &a);**    // 读取一个十六进制整数  
 9. **scanf("%o", &a);**    // 读取一个八进制整数  
@@ -102,12 +102,12 @@ comment: false
 2. **printf("%lld", a);**  // 输出一个长整数  
 3. **printf("%f", a);**    // 输出一个单精度浮点数  
 4. **printf("%lf", a);**   // 输出一个双精度浮点数  
-   - **printf("%.nlf", a);**   // 输出一个双精度浮点数, 保留 n 位小数  
-1. **printf("%c", a);**    // 输出一个字符  
-2. **printf("%s", s);**    // 输出一个字符串  
-3. **printf("%u", a);**    // 输出一个无符号整数  
-4. **printf("%x", a);**    // 输出一个十六进制整数  
-5. **printf("%o", a);**    // 输出一个八进制整数  
+   - **printf("%.==n==lf", a);**   // 输出一个双精度浮点数, 保留 n 位小数  
+5. **printf("%c", a);**    // 输出一个字符  
+6. **printf("%s", s);**    // 输出一个字符串  （char）
+7. **printf("%u", a);**    // 输出一个无符号整数  
+8. **printf("%x", a);**    // 输出一个十六进制整数  
+9. **printf("%o", a);**    // 输出一个八进制整数  
 ### Input 2 : cin（输入流）
 
 1. **cin >> a;**      // 读取一个整数、浮点数、字符  
@@ -116,7 +116,7 @@ comment: false
 ### Output 2 : cout（输出流）
 
 1. **cout << fixed << [[setprecision();]] << a;**       // 输出浮点数, 保留 n 位小数
-2. **cout << setw(n) << a;**                  // 输出整数, 左对齐, 宽度为 n  
+2. **cout << setw(n) << a;**                  // 输出整数, **右对齐**, 宽度为 n  
 3. **cout << setfill('0') << setw(n) << a;**        // 输出整数, 右对齐, 宽度为 n, 不足补 0  
 4. **cout << hex << a;**                      // 十六进制输出  
 5. **cout << oct << a;**                      // 八进制输出  
@@ -130,11 +130,11 @@ comment: false
    - **getline(cin, a, '\n');** // 读取一整行字符串 [包括空格] 直到遇到换行符
 
 2.  **cin.get(a);**        //读取一个字符 [此时会读空格字符]
-   -  **cin.get(a, n);**       // 读取 n-1 个字符 [此时会读空格字符]
+   -  **cin.get(a, n);**       // 读取 n-1 个字符（C 风格字符串） [此时会读空格字符]
 
 3. **cin.getline(a, n);**      // 读取 n-1 个字符 [包括空格] 直到换行符  
 
-4. **while(cin >> a);**        // 读取一整行字符串 [包括空格] 直到文件结束符 -> EOF -> \[\^Z\]  
+4. **while(cin >> a)**        // 读取一整行字符串 [包括空格] 直到文件结束符 -> EOF -> \[\^Z\]  
    - **while(cin.peek() != EOF);**        // 试读一整行字符串 [包括空格] 直到文件结束符 -> EOF -> \[\^Z\]  
 
 
@@ -142,7 +142,7 @@ comment: false
 
 1. **逐个读取 vector 元素**
 ```cpp
-vector<int> v;
+vector<int> v(n);
 for (int i = 0; i < n; i++) 
 {
 	cin >> v[i];  //逐个读取vector元素
@@ -161,7 +161,7 @@ for (int i = 0; i < n; i++)
 ### Input 5 ：Buffer Clear
 
 1. [[cin.ignore();]] // 忽略一个字符 [包括换行符]
-	- **cin.ignore(n, '\n');** // 忽略 n 个字符 [直到遇到换行符（不包括）] 
+	- **cin.ignore(n, '\n');** // 忽略 n 个字符 [直到遇到换行符（包括）] 
 		-> 常用于 getline() 后
 
 ---
@@ -251,13 +251,13 @@ for (int i = 0; i < n; i++)
 }
 
 // 4.1 While 循环 (满足条件时)
-while (condition); // 当满足条件时循环
+while (condition) // 当满足条件时循环
         {
             // 将要进行的处理
         }
 
 // 4.2 While 循环 (不满足条件时)
-while (!condition); // 当不满足条件时循环
+while (!condition) // 当不满足条件时循环
         {
             // 将要进行的处理
         }
@@ -461,10 +461,7 @@ while (condition); // 在满足条件时循环
 - **2.7 插入**
     1. `v.insert(v.begin() + i, x);` // 在第 i 个元素前插入 x
 
-- **2.8 交换**
-    1. `v.swap(v.begin() + i, v.begin() + j);` // 交换第 i 和第 j 个元素
-
-- **2.9 赋值**
+- **2.8 赋值**
     1. `v.assign(n, x);` // 将 vector v 中的 n 个元素赋值为 x
 ---
 ## >>>>> Part 4. Common Functions <<<<<
@@ -590,7 +587,7 @@ void quick_sort(int *arr, int left, int right)
     int j = right;
     int pivot = arr[left]; // 选取基准值
 
-    while (i < j) // 当 i 小于 j 时, 说明还没有遍历完
+    while (i < j) // 当 i 小于 j 时, 说明还没有相遇
     {
         while (i < j && arr[j] >= pivot) // 从右向左找第一个小于基准值的元素
         {

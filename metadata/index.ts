@@ -1,7 +1,7 @@
 /** 文本 */
 export const siteName = 'ReBlog'
 export const siteShortName = 'Re'
-export const siteDescription = '记录回忆，知识和畅想'
+export const siteDescription = 'Re\'s blog'
 
 /** 文档所在目录 */
 export const include = ['笔记']
